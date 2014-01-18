@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+</head>
+<body>
+This project aims at reproducing all maths thur algorythms in Javascipt. Copyright 2014 Usmar Padow and Patrick Robotham<BR>
+input1: <input type="text" name="input1" id="input1" value="O O O O O"><br>
+
+count program withought using the + operator.
+based on <a href=http://www.youtube.com/watch?v=15sLPp0YvQk&list=PL7F6C8576EBEDD88F>Pre-Algebra 2 - Roman Numerals: Sign-Value versus Positional Notation</a>
+anything between spaces represents an object, here Os represent coconuts. 
+First enter the number of coconuts you want into input1 (can only count from 0 to 9)<BR>
+<input type="button" onclick="count_prompt()" value="Count Coconuts" /><BR>
+
+<script type="text/javascript">
+function count_to_9(CoconutString,array) {// counts to 9 withought using the + opperator
+	if (CoconutString=="")
+		return 0;//I do this because split seems to return 1 element even when the string is empty
+	if (typeof array[0] == 'undefined')
+		return 0;
+	if (typeof array[1] == 'undefined')
+		return 1;
+	if (typeof array[2] == 'undefined')
+		return 2;
+	if (typeof array[3] == 'undefined')
+		return 3;
+	if (typeof array[4] == 'undefined')
+		return 4;
+	if (typeof array[5] == 'undefined')
+		return 5;
+	if (typeof array[6] == 'undefined')
+		return 6;
+	if (typeof array[7] == 'undefined')
+		return 7;
+	if (typeof array[8] == 'undefined')
+		return 8;
+	if (typeof array[9] == 'undefined')
+		return 9;
+}
+
+function count_prompt()
+{
+	var CoconutString=document.getElementById ( "input1" ).value
+	var CoconutArray=CoconutString.split(" ");
+	//This would do, but it would kindof be cheating because I think the lenght is caulculated using + operators
+	//alert("there are "+ CoconutArray.length + " coconuts");
+	alert("there are "+ count_to_9(CoconutString,CoconutArray) + " coconuts");
+}
+</script>
+Count up to 99 coconuts
+First enter the number of coconuts you want into input2 (can only count from 0 to 9)<BR>
+input1: <input type="text" name="input2" id="input2" width=300 value="O O O O O O O O O O O O O O O O O O O O O O O"><br>
+
+<input type="button" onclick="count_99_prompt()" value="Count
+Coconuts" /><BR>
+
+
+<script type="text/javascript">
+function count_99_prompt()
+{
+	var CoconutString=document.getElementById ( "input2" ).value
+	var CoconutArray=CoconutString.split(" ");
+	var TensCoconutString="";
+	while(count_to_9(CoconutString,CoconutArray) == undefined) {// if there are more than 9 coconuts, take away 9 coconuts, increment the counter
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		CoconutArray.pop();
+		if (TensCoconutString=="") TensCoconutString="O"; else TensCoconutString+=" O";//this is so we carry over (in coconuts) the amount for the 10's decimal place
+	}
+	var TensCoconutArray=TensCoconutString.split(" ");
+	if(count_to_9(TensCoconutString,TensCoconutArray)==0)
+		alert("there are "+ count_to_9(CoconutString,CoconutArray) + " coconuts");
+	else
+		alert("there are "+ count_to_9(TensCoconutString,TensCoconutArray).toString() + count_to_9(CoconutString,CoconutArray).toString() + " coconuts");
+}
+</script>
+
+Count as many coconuts as you like! <BR>
+
+
+Input 3: <BR>
+<input type="text" name="input3" id="input3" width=300 value="O O O O O O O O O O O O O O O O O O O O O O O"><br>
+<input type="button" onclick="count_infinite_prompt()" value="Count
+Coconuts" /><BR>
+
+<script type="text/javascript">
+var nextDigit = {
+	    "0" : "1",
+	    "1" : "2",
+	    "2" : "3",
+	    "3" : "4",
+	    "4" : "5",
+	    "5" : "6",
+	    "6" : "7",
+	    "7" : "8",
+	    "8" : "9",
+	    "9" : "0",
+      };
+
+function succ(myNum)
+{
+	    /*
+	      Increases a 'number' by one.
+	      A 'number' is an an array of digits in reverse order.
+	      For example, the number 475 is represented as ["5", "7", "4"].
+	    */
+      var newNum = [];
+      var carry = true;
+      var newDigit = "0";
+      for (var i = 0 ; i < myNum.length ; i++) {
+	    newDigit = myNum[i];
+	    if(carry) {
+		  newDigit = nextDigit[myNum[i]];
+	    }
+	    newNum[i] = newDigit;
+	    carry = carry && newDigit == "0";
+      }
+      if (carry) {
+	    newNum.push("1")
+      }
+      return newNum;
+}
+
+function count_infinite_prompt()
+{
+      var CoconutString=document.getElementById ( "input3" ).value;
+      var CoconutArray=CoconutString.split(" ");
+      var NumCoconuts = ["0"];
+
+      var Coco = CoconutArray.pop();
+      while(Coco != undefined){
+	    NumCoconuts = succ(NumCoconuts);
+	    Coco = CoconutArray.pop();
+      }
+      var NumString = NumCoconuts.reverse().join("")
+      alert("there are " + NumString + " coconuts.");
+}
+</script>
