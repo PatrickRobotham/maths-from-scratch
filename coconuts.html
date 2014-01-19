@@ -104,13 +104,17 @@ var nextDigit = {
 	    "9" : "0",
       };
 
-function succ(myNum)
+function succ_with_cheating(myNum)
 {
-	    /*
-	      Increases a 'number' by one.
-	      A 'number' is an an array of digits in reverse order.
-	      For example, the number 475 is represented as ["5", "7", "4"].
-	    */
+      /*
+	Increases a 'number' by one.
+	A 'number' is an an array of digits in reverse order.
+	For example, the number 475 is represented as ["5", "7", "4"].
+	This version "cheats" because the exercise would be trivial 
+	if we had access to arithmetic (which the for loop uses), 
+	or the length operator (since we could just get the length of
+	the coconuts 
+      */
       var newNum = [];
       var carry = true;
       var newDigit = "0";
@@ -139,7 +143,34 @@ function count_infinite_prompt()
 	    NumCoconuts = succ(NumCoconuts);
 	    Coco = CoconutArray.pop();
       }
-      var NumString = NumCoconuts.reverse().join("")
+      var NumString = NumCoconuts.join("")
       alert("there are " + NumString + " coconuts.");
+}
+
+
+function succ(myNum) {
+	    /*
+	      Increases a 'number' by one.
+	      A 'number' is an an array of digits.
+	      For example, the number 475 is represented as ["4", "7", "5"].
+	      This version does not use the plus operator.
+	    */
+      var oldNum = myNum.slice() // Make a copy of the array
+      var newNum = [];
+      var carry = true;
+      var newDigit = "0";
+      while (typeof oldNum[0] != 'undefined'){
+	    newDigit = oldNum.pop();
+	    if(carry){
+		  newDigit = nextDigit[newDigit]
+	    }
+	    newNum.push(newDigit);
+	    carry = carry && newDigit == "0"; 
+      }
+      if (carry) {
+	    newNum.push("1");
+      }
+      newNum.reverse();
+      return newNum;
 }
 </script>
